@@ -8,3 +8,4 @@ x=1, y=4, h=6 the example input to many of the functions
 mapping to 
 [5,2,6]. in the matlab code I have.  
 The outputs of the graphs are 1 indexed in the x,y convention held by the problem set.  
+PDF has the functions that I used to answer that specific part of the problem.
