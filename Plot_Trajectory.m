@@ -11,7 +11,7 @@
 %pass the output of the array as a starting point to the function 
 %then use update Action to give you the orientation to go to next.  
 
-function path = Plot_Trajectory(pis,So,pe)
+function path = Plot_Trajectory(pis,So,pe,heading)
 path=zeros(1,3);
 for i=1:30 %loop for 30 iterations.
     if pe==0
@@ -42,8 +42,14 @@ for i=1:30 %loop for 30 iterations.
         end
         path(i,:)=Update_Action_Switch(So,action,pe);%Create next step sp = s'
         So=path(i,:);
-        if (path(i,1)==5) && (path(i,2)==4)
-            break;
+        if heading ==0
+            if (path(i,1)==5) && (path(i,2)==4)
+                break;
+            end
+        else
+            if (path(i,1)==5) && (path(i,2)==4) && (path(i,3)==5 || path(i,3)==6 || path(i,3)==7)
+                break;
+            end
         end
     else
         if So(3)==0
