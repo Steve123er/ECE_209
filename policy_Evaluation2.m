@@ -1,12 +1,11 @@
-function Value= policy_Evaluation2(pis,pe)
+function Value= policy_Evaluation2(pis,pe,heading,gamma)
 path_length=zeros(1,1,1);
 Value=zeros(1,1,1);
-gamma=0.9;
 
 for i=1:6
     for j=1:6
         for k=1:12
-            paths=Plot_Trajectory_5b(pis,[i,j,k],pe);%5b
+            paths=Plot_Trajectory(pis,[i,j,k],pe,heading);%5b
             path_length(i,j,k)=size(paths,1);
             rewards=0;
             for m=1:size(paths,1)

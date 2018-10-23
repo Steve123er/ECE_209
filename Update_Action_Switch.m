@@ -15,6 +15,13 @@
 %For example, x=1, y=4 h=6 would be described as 
 %(5,2,6) when indexing by state.  
 
+%Problem 1a
+%act={{0,0,0},{1,0,0},{1,0,1},{1,0,-1},{-1,0,0},{-1,0,1},{-1,0,-1}};
+
+%Problem 1b
+%states=zeros(6,6,12);
+
+
 function sp =Update_Action_Switch(s,a,pe)
     h=s(3);
     sp=[s(1),s(2),s(3)];

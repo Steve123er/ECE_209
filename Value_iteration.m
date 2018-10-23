@@ -1,5 +1,5 @@
 %Value iteration for the MDP robot.
-function [Value, policy]= Value_iteration(pe,iterations)
+function [Value, policy]= Value_iteration(pe,iterations,heading)
 Old_Value = zeros(6,6,12);%store the values of the value function.
 New_Value = zeros(6,6,12);
 Old_policy = ones(6,6,12);
@@ -10,7 +10,7 @@ for n=1:iterations
     for i=1:6
         for j=1:6
             for k=1:12
-                [val,act]=One_Step_Lookahead_Value([i,j,k],Old_policy,n,pe);
+                [val,act]=One_Step_Lookahead_Value([i,j,k],Old_policy,n,pe,heading);
                 OldValue=Old_Value(i,j,k);
                 OldPolicy=Old_policy(i,j,k);
                 NewValue=val;
@@ -31,7 +31,7 @@ Value=New_Value;
 policy=New_policy;
 end
 
-function [Val,act] = One_Step_Lookahead_Value(state,pis,n,pe)
+function [Val,act] = One_Step_Lookahead_Value(state,pis,n,pe,heading)
 sp=ones(1,3);
 Value=[];
 for i=1:7
@@ -44,7 +44,7 @@ for i=1:7
     
     sp(1,:)=Update_Action_Switch([state(1),state(2),state(3)],i,pe);%Evaluate
     %each action
-    paths=Plot_Trajectory(pis,[sp(1),sp(2),sp(3)],pe);%follow policy starting
+    paths=Plot_Trajectory(pis,[sp(1),sp(2),sp(3)],pe,heading);%follow policy starting
     %with a certain action.
     for m=1:size(paths,1)%Generate the reward for each step.
         if paths(m,3)==0

@@ -1,14 +1,15 @@
-%Policy Evaluation
-function pip =  policy_update(pol_Old,pe)
+%Policy iteration
+function [pip,Val] =  policy_update(pol_Old,pe,heading)
 pip=zeros(6,6,12);
+gamma=0.9;
 %Initialize with a policy evaluation
-Val=policy_Evaluation2(pol_Old,pe);
+Val=policy_Evaluation2(pol_Old,pe,heading,gamma);
 %Take each step and apply a one step lookahead.
 for i=1:6
     for j=1:6
         for k=1:12
             %new_act=One_Step_Lookahead([i,j,k],pol_Old);
-            [Vals,act]=One_Step_Lookahead([i,j,k],pol_Old,pe);
+            [Vals,act]=One_Step_Lookahead([i,j,k],pol_Old,pe,heading);
             OldValue=Val(i,j,k);
             NewValue=Vals;
             if NewValue>OldValue
@@ -22,7 +23,7 @@ end
 
 end
 
-function [Val,act] = One_Step_Lookahead(state,pis,pe)
+function [Val,act] = One_Step_Lookahead(state,pis,pe,heading)
 sp=ones(1,3);
 Value=[];
 for i=1:7
@@ -33,7 +34,7 @@ for i=1:7
     end
     sp(1,:)=Update_Action_Switch([state(1),state(2),state(3)],i,pe);%Evaluate
     %each action
-    paths=Plot_Trajectory_5b(pis,[sp(1),sp(2),sp(3)],pe);%follow policy starting
+    paths=Plot_Trajectory(pis,[sp(1),sp(2),sp(3)],pe,heading);%follow policy starting
     %with a certain action.
     for m=1:size(paths,1)%Generate the reward for each step.
         if paths(m,3)==0

@@ -12,28 +12,27 @@
 
 %% Problem #3
 %Start with the initialization of policy
-pip=policy_matrix_2;
+pip=policy_matrix_2;%Initial policy is returned as pip
 heading=0;
+gamma=0.9;
+policy_iterations=40;
 %Do plot of initial Policy This is problems 3 a,b,c
 pe=0;
 So=[5,2,6];
 path=Plot_Trajectory(pip,So,pe,heading);
 
-V=policy_Evaluation2(pip,pe,heading); %This is problem 3d.  
-V(5,2,6)%Problem 3e
+V=policy_Evaluation2(pip,pe,heading,gamma); %This is problem 3d.  
+initial_policy_value=V(5,2,6);%Problem 3e
 
 show_path(So,path)
 
-policy_update(pip,pe,heading) %problem 3f
+policy_update(pip,pe,heading); %problem 3f
 
-%policy iteration
-tic
-pe=0;
-policy_iterations=40;
-for i=1:policy_iterations
-    pip=policy_update(pip,pe,heading);
-end
-toc
+%policy iteration problem 3g
+[pip,V]=Policy_Iteration(policy_iterations,pip,pe,heading);
+
+final_policy_value=V(5,2,6);%Problem 3h
+
 
 %New trajectory
 path=Plot_Trajectory(pip,So,pe,heading);
@@ -57,15 +56,12 @@ pe=0.25;
 %5a Plotting the path and value without rerunning policy iteration
 path_pe_0_25=Plot_Trajectory(policy_VI,So,pe,heading);
 show_path(So,path_pe_0_25)
-ValRand=policy_Evaluation2(policy_VI,pe,heading);
+ValRand=policy_Evaluation2(policy_VI,pe,heading,gamma);
 ValueRandom=ValRand(5,2,6);
 
 
-policy_iterations=40;
-for i=1:policy_iterations
-    pip=policy_update(pip,pe,heading);
-end
-toc
+[pip,V]=Policy_Iteration(policy_iterations,pip,pe,heading);
+
 path_pe_0_25=Plot_Trajectory(pip,So,pe,heading);
 show_path(So,path_pe_0_25)
 
@@ -73,23 +69,16 @@ heading=1;
 %5b with probability error =0 
 
 pe=0;
-policy_iterations=40;
-for i=1:policy_iterations
-    pip=policy_update(pip,pe,heading);
-end
-toc
+[pip,V]=Policy_Iteration(policy_iterations,pip,pe,heading);
 path_pe_0_25=Plot_Trajectory(pip,So,pe,heading);
 show_path(So,path_pe_0_25)
-
+V(5,2,6);
 %5b with probability error =0.25
 tic
 pe=0.25;
-policy_iterations=40;
-for i=1:policy_iterations
-    pip=policy_update(pip,pe,heading);
-end
-toc
-path_pe_0_25=Plot_Trajectory_5b(pip,So,pe,heading);
+[pip,V]=Policy_Iteration(policy_iterations,pip,pe,heading);
+V(5,2,6);
+path_pe_0_25=Plot_Trajectory(pip,So,pe,heading);
 show_path(So,path_pe_0_25)
 
 
